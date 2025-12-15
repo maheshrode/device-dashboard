@@ -2,11 +2,12 @@ import { Component, OnInit, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { ConfigService } from './core/config/config.service';
 import { AppConfig } from './core/config/config.model';
+import { ErrorLogsBannerComponent } from './core/error-logs/error-logs-banner.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet],
+  imports: [RouterOutlet, ErrorLogsBannerComponent],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
