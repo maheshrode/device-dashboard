@@ -1,5 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { ConfigService } from './core/config/config.service';
+import { AppConfig } from './core/config/config.model';
 
 @Component({
   selector: 'app-root',
@@ -8,6 +10,13 @@ import { RouterOutlet } from '@angular/router';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = 'device-dashboard';
+  private configService = inject(ConfigService);
+
+  ngOnInit() {
+    this.configService.config$.subscribe((cfg) => {
+      console.log('Environment:', cfg?.environment);
+    });
+  }
 }
