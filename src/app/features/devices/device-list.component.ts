@@ -18,7 +18,7 @@ import { DeviceService } from './device.service';
           class="bg-white rounded-xl shadow hover:shadow-lg transition-shadow cursor-pointer flex flex-col justify-between"
         >
           <div class="p-4 flex items-center gap-3">
-            <!-- Icon -->
+            <!--eg Replace actual device Icon here -->
             <lucide-icon
               [img]="RadioReceiver"
               class="w-8 h-8 text-blue-500"
@@ -52,7 +52,7 @@ export class DeviceListComponent {
 
   constructor(private deviceService: DeviceService, private router: Router) {}
 
-  goToDetail(deviceName: string) {
-    this.router.navigate(['/devices', deviceName]);
+  goToDetail(deviceId: string) {
+    this.router.navigate(['/devices', deviceId]);
   }
 }
