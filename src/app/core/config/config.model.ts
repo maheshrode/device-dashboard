@@ -1,7 +1,14 @@
-export type Environment = 'TEST' | 'QUAL' | 'PROD';
+export interface ApiEndpoints {
+  config: string;
+  devices: string;
+  events: string;
+  order: string;
+}
 
 export interface AppConfig {
-    environment: Environment;
-    apiBaseUrl: string;
-    refreshInterval?: number;
+  availableLanguages: string[];
+  environment: string;
+  environmentColour: string;
+  environmentName: string;
+  endpoints: ApiEndpoints;
 }
