@@ -1,0 +1,90 @@
+<div
+  *ngIf="isOpen"
+  class="fixed inset-0 z-50 flex items-center justify-center p-4"
+  role="dialog"
+  aria-modal="true"
+>
+  <!-- Backdrop -->
+  <div
+    class="absolute inset-0 bg-black/50 backdrop-blur-sm"
+    @backdrop
+    (click)="close()"
+  ></div>
+
+  <!-- Modal Content -->
+  <div
+    class="relative bg-white rounded-2xl shadow-xl w-full max-w-md overflow-hidden"
+    @modal
+  >
+    <!-- Header -->
+    <div
+      class="px-6 py-4 bg-gradient-to-r from-blue-600 to-indigo-600 flex items-center justify-between text-white"
+    >
+      <h3 class="text-xl font-bold flex items-center gap-2">
+        <lucide-icon [img]="Package" class="w-6 h-6"></lucide-icon>
+        Order Details
+      </h3>
+      <button
+        (click)="close()"
+        class="p-1 hover:bg-white/20 rounded-full transition-colors"
+      >
+        <lucide-icon [img]="X" class="w-5 h-5"></lucide-icon>
+      </button>
+    </div>
+
+    <!-- Body -->
+    <div class="p-6 space-y-6" *ngIf="order">
+      <div class="text-center">
+        <div
+          class="text-sm text-gray-500 uppercase tracking-wider font-semibold"
+        >
+          Order ID
+        </div>
+        <div class="text-3xl font-bold text-gray-900 mt-1">
+          #{{ order.orderNumber }}
+        </div>
+      </div>
+
+      <div class="grid grid-cols-2 gap-4">
+        <div
+          class="bg-blue-50 p-4 rounded-xl border border-blue-100 text-center"
+        >
+          <div class="flex items-center justify-center text-blue-600 mb-2">
+            <lucide-icon [img]="Target" class="w-5 h-5"></lucide-icon>
+          </div>
+          <div class="text-2xl font-bold text-blue-900">
+            {{ order.productionTarget }}
+          </div>
+          <div class="text-xs text-blue-600 font-medium">Target Amount</div>
+        </div>
+
+        <div
+          class="bg-emerald-50 p-4 rounded-xl border border-emerald-100 text-center"
+        >
+          <div class="flex items-center justify-center text-emerald-600 mb-2">
+            <lucide-icon [img]="Package" class="w-5 h-5"></lucide-icon>
+          </div>
+          <div class="text-2xl font-bold text-emerald-900">
+            {{ order.productionState }}
+          </div>
+          <div class="text-xs text-emerald-600 font-medium">Produced</div>
+        </div>
+      </div>
+
+      <div>
+        <div class="flex justify-between text-sm mb-2">
+          <span class="text-gray-600 font-medium">Completion Progress</span>
+          <span class="font-bold text-indigo-600"
+            >{{ progress | number : "1.0-2" }}%</span
+          >
+        </div>
+        <div class="h-3 bg-gray-100 rounded-full overflow-hidden">
+          <div
+            class="h-full bg-indigo-500 rounded-full transition-all duration-1000 ease-out"
+            [style.width.%]="progress"
+          ></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

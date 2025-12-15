@@ -9,7 +9,7 @@ import { ConfigService } from '../config/config.service';
   imports: [CommonModule, LucideAngularModule],
   template: `
     <header
-      class="sticky top-0 z-50 w-full bg-white/90 backdrop-blur border-b border-gray-200"
+      class="sticky top-0 z-20 w-full bg-white/90 backdrop-blur border-b border-gray-200"
     >
       <div
         class="max-w-7xl mx-auto flex items-center justify-between px-4 sm:px-6 py-3"

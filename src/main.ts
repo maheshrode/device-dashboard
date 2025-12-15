@@ -8,10 +8,13 @@ import { routes } from './app/app.routes';
 import { ConfigService } from './app/core/config/config.service';
 import { ErrorLogInterceptor } from './app/core/error-logs/error-logs.interceptor';
 
+import { provideAnimations } from '@angular/platform-browser/animations';
+
 bootstrapApplication(AppComponent, {
   providers: [
     provideRouter(routes),
     provideHttpClient(withInterceptors([ErrorLogInterceptor])),
+    provideAnimations(),
     {
       provide: APP_INITIALIZER,
       useFactory: (config: ConfigService) => () => config.init(),

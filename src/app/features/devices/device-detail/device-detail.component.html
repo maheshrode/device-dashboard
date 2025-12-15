@@ -7,12 +7,9 @@
     </div>
     <div
       *ngIf="latestEvent$ | async as event"
-      class="flex items-center gap-2 px-4 py-2 rounded-full font-semibold capitalize"
-      [ngClass]="{
-        'bg-green-100 text-green-700': event.status === 'running',
-        'bg-yellow-100 text-yellow-700': event.status === 'stopped',
-        'bg-red-100 text-red-700': event.status === 'maintenance'
-      }"
+      @fadeAnimation
+      class="flex items-center gap-2 px-4 py-2 rounded-full font-semibold capitalize transition-colors duration-300"
+      [class]="getStatusStyle(event.status)"
     >
       <lucide-icon
         [img]="getStatusIcon(event.status)"
@@ -43,7 +40,18 @@
     </div>
 
     <!-- Order ID -->
-    <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+    <div
+      class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 cursor-pointer hover:shadow-md transition-shadow group relative"
+      (click)="openOrderDetails(event.order)"
+    >
+      <div
+        class="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity"
+      >
+        <lucide-icon
+          [img]="Server"
+          class="w-4 h-4 text-purple-300"
+        ></lucide-icon>
+      </div>
       <div class="flex items-center justify-between mb-2">
         <span class="text-gray-500 font-medium">Current Order</span>
         <lucide-icon
@@ -51,8 +59,14 @@
           class="w-5 h-5 text-purple-500"
         ></lucide-icon>
       </div>
-      <div class="text-3xl font-bold text-gray-900">#{{ event.order }}</div>
-      <div class="text-xs text-gray-400 mt-1">Active Job</div>
+      <div
+        class="text-3xl font-bold text-gray-900 group-hover:text-purple-600 transition-colors"
+      >
+        #{{ event.order }}
+      </div>
+      <div class="text-xs text-gray-400 mt-1">
+        Active Job - Click for details
+      </div>
     </div>
 
     <!-- Last Update (Timestamp) -->
@@ -78,4 +92,10 @@
       Connecting to device stream...
     </div>
   </ng-template>
+
+  <app-order-detail
+    [isOpen]="isOrderModalOpen"
+    [order]="selectedOrder"
+    (closeEvent)="closeOrderModal()"
+  ></app-order-detail>
 </div>
