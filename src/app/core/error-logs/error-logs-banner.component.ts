@@ -10,7 +10,7 @@ import { Subscription, timer } from 'rxjs';
   template: `
     <div
       *ngIf="error$ | async as error"
-      class="fixed top-2 right-5 z-50! w-[90%] sm:w-96
+      class="fixed top-2 right-5 z-50 w-[90%] sm:w-96
              bg-red-500 text-white px-4 py-3 rounded-lg shadow-lg
              flex items-start gap-3
              animate-slide-in"

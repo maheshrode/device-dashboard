@@ -7,7 +7,7 @@ import { ErrorLogsBannerComponent } from './core/error-logs/error-logs-banner.co
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, ErrorLogsBannerComponent],
+  imports: [RouterOutlet],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
