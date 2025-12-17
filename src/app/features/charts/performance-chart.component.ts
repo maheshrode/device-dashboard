@@ -5,6 +5,7 @@ import {
   OnChanges,
   ViewChild,
   HostListener,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import * as d3 from 'd3';
@@ -13,6 +14,7 @@ import { DeviceEvent } from '../devices/device-event.model';
 @Component({
   selector: 'app-performance-chart',
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [CommonModule],
   template: `
     <div

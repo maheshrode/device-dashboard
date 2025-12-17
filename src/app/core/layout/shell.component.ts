@@ -8,7 +8,13 @@ import { ErrorLogsBannerComponent } from '../error-logs/error-logs-banner.compon
   standalone: true,
   imports: [RouterOutlet, HeaderComponent, ErrorLogsBannerComponent],
   template: `
-    <div class="min-h-screen bg-gray-100">
+    <div class="min-h-screen bg-gray-100  relative overflow-hidden z-0">
+      <div
+        class="absolute top-0 -right-20 w-[500px] h-[500px] bg-blue-300/20 rounded-full blur-3xl animate-blob"
+      ></div>
+      <div
+        class="absolute bottom-0 -left-20 w-[500px] h-[500px] bg-yellow-300/20 rounded-full blur-3xl animate-blob animation-delay-4000"
+      ></div>
       <app-error-log-banner></app-error-log-banner>
       <app-header></app-header>
       <main class="p-4">

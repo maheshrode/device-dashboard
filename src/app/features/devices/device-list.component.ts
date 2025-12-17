@@ -1,5 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+} from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import {
   LucideAngularModule,
@@ -16,6 +21,7 @@ import { FormsModule } from '@angular/forms';
   imports: [CommonModule, LucideAngularModule, FormsModule, RouterLink],
   selector: 'app-device-list',
   templateUrl: './device-list.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DeviceListComponent implements OnInit {
   devices$ = this.deviceService.getDevices();
@@ -28,16 +34,22 @@ export class DeviceListComponent implements OnInit {
   readonly ChevronRight = ChevronRight;
   readonly X = X;
 
-  constructor(private deviceService: DeviceService, private router: Router) {}
+  constructor(
+    private deviceService: DeviceService,
+    private router: Router,
+    private cdr: ChangeDetectorRef
+  ) {}
 
   ngOnInit() {
     this.deviceService.getDevices().subscribe({
       next: (devices) => {
         this.allDevices = devices;
         this.isLoading = false; // Turn off loading
+        this.cdr.markForCheck();
       },
       error: () => {
         this.isLoading = false; // Turn off loading on error too
+        this.cdr.markForCheck();
       },
     });
   }

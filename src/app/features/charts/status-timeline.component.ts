@@ -5,6 +5,7 @@ import {
   OnChanges,
   ViewChild,
   HostListener,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import * as d3 from 'd3';
@@ -19,6 +20,7 @@ interface StatusSegment {
 @Component({
   selector: 'app-status-timeline',
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [CommonModule],
   template: `
     <div

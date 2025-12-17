@@ -12,7 +12,7 @@ import { ConfigService } from '../config/config.service';
       class="sticky top-0 z-10 w-full bg-white/90 backdrop-blur border-b border-gray-200"
     >
       <div
-        class="max-w-7xl mx-auto flex items-center justify-between px-4 sm:px-6 py-3"
+        class="max-w-7xl mx-auto flex items-center flex-col sm:flex-row justify-between px-4 sm:px-6 py-3"
       >
         <!-- Title -->
         <div class="flex items-center gap-3">
