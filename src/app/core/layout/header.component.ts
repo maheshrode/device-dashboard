@@ -29,11 +29,11 @@ import { ConfigService } from '../config/config.service';
         <!-- Environment Badge -->
         <ng-container *ngIf="config$ | async as config">
           <div
-            class="flex items-center gap-2 px-3 py-1.5 rounded-full text-sm font-medium text-white shadow-md animate-pulse"
+            class="flex items-baseline gap-2 px-3 py-1.5 rounded-full text-sm font-medium text-white shadow-md"
             [ngStyle]="{ backgroundColor: config.environmentColour }"
           >
             <span class="w-2.5 h-2.5 rounded-full bg-white/90"></span>
-            {{ config.environmentName }}
+            Env - {{ getCleanEnvName(config.environmentName) }}
           </div>
         </ng-container>
       </div>
@@ -44,4 +44,8 @@ export class HeaderComponent {
   config$ = this.configService.config$;
   readonly LayoutDashboard = LayoutDashboard;
   constructor(private configService: ConfigService) {}
+
+  getCleanEnvName(name: string): string {
+    return name ? name.replace(/[\[\]]/g, '') : '';
+  }
 }

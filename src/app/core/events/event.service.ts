@@ -1,6 +1,6 @@
 import { Injectable, NgZone } from '@angular/core';
 import { Observable } from 'rxjs';
-import { filter, switchMap } from 'rxjs/operators';
+import { filter, retry, switchMap } from 'rxjs/operators';
 import { DeviceEvent } from '../../features/devices/device-event.model';
 import { ErrorLogService } from '../error-logs/error-logs.service';
 import { ConfigService } from '../config/config.service';
@@ -46,13 +46,18 @@ export class EventService {
           eventSource.onerror = (error) => {
             this.zone.run(() => {
               console.error('EventSource error', error);
+              this.errorService.setError(
+                'Connection to device stream lost. Retrying...'
+              );
+              eventSource.close();
+              observer.error(error);
             });
           };
 
           return () => {
             eventSource.close();
           };
-        });
+        }).pipe(retry({ delay: 3000 }));
       })
     );
   }
