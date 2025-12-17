@@ -1,0 +1,118 @@
+<div class="max-w-7xl mx-auto p-4 sm:p-6 lg:p-8 space-y-8">
+  <!-- Header Section -->
+  <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
+    <div>
+      <h2 class="text-3xl font-extrabold text-gray-900 tracking-tight">
+        Device List
+      </h2>
+      <p class="text-gray-500 mt-1 text-lg">Manage and monitor your devices</p>
+    </div>
+    <div class="relative w-full sm:w-72">
+      <div
+        class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
+      >
+        <lucide-icon [img]="Search" class="h-5 w-5 text-gray-400"></lucide-icon>
+      </div>
+      <input
+        type="text"
+        [(ngModel)]="searchTerm"
+        placeholder="Search devices..."
+        class="block w-full pl-10 pr-10 py-2.5 border border-gray-300 rounded-xl leading-5 bg-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-150 ease-in-out sm:text-sm shadow-sm hover:shadow-md"
+      />
+      <button
+        *ngIf="searchTerm"
+        (click)="clearSearch()"
+        class="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600 transition-colors"
+      >
+        <lucide-icon [img]="X" class="h-5 w-5"></lucide-icon>
+      </button>
+    </div>
+  </div>
+
+  <div
+    *ngIf="isLoading"
+    class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
+  >
+    <!-- Skeleton Loader -->
+    <div
+      *ngFor="let i of [1, 2, 3, 4]"
+      class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 animate-pulse h-48"
+    >
+      <div class="flex justify-between mb-4">
+        <div class="h-12 w-12 bg-gray-200 rounded-xl"></div>
+        <div class="h-4 w-16 bg-gray-200 rounded"></div>
+      </div>
+      <div class="h-6 w-3/4 bg-gray-200 rounded mb-2"></div>
+      <div class="h-4 w-1/2 bg-gray-200 rounded mb-6"></div>
+      <div class="flex justify-between items-center mt-auto">
+        <div class="h-4 w-24 bg-gray-200 rounded"></div>
+        <div class="h-5 w-5 bg-gray-200 rounded"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Device Grid -->
+  <div
+    *ngIf="!isLoading && filteredDevices().length > 0"
+    class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
+  >
+    <a
+      *ngFor="let device of filteredDevices(); trackBy: trackByDevice"
+      [routerLink]="['/devices', device]"
+      class="group relative bg-white rounded-2xl p-6 shadow-sm border border-gray-100 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 ease-in-out overflow-hidden cursor-pointer"
+    >
+      <div
+        class="absolute inset-0 bg-gradient-to-br from-blue-50 to-indigo-50 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+      ></div>
+
+      <div class="relative flex items-start justify-between mb-4">
+        <div
+          class="p-3 bg-blue-50 text-blue-600 rounded-xl group-hover:bg-blue-600 group-hover:text-white transition-colors duration-300"
+        >
+          <lucide-icon [img]="RadioReceiver" class="w-8 h-8"></lucide-icon>
+        </div>
+        <div
+          class="flex items-center space-x-1 text-gray-400 group-hover:text-blue-500 transition-colors"
+        >
+          <span class="relative flex h-2.5 w-2.5">
+            <span
+              class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"
+            ></span>
+            <span
+              class="relative inline-flex rounded-full h-2.5 w-2.5 bg-green-500"
+            ></span>
+          </span>
+        </div>
+      </div>
+
+      <div class="relative">
+        <h3
+          class="text-xl font-bold text-gray-900 mb-1 group-hover:text-blue-700 transition-colors"
+        >
+          {{ device }}
+        </h3>
+      </div>
+
+      <div class="relative mt-6 flex items-center justify-between text-sm">
+        <span class="text-gray-400 group-hover:text-gray-600 transition-colors"
+          >View Dashboard</span
+        >
+        <lucide-icon
+          [img]="ChevronRight"
+          class="w-5 h-5 text-gray-300 group-hover:text-blue-500 transform group-hover:translate-x-1 transition-all"
+        ></lucide-icon>
+      </div>
+    </a>
+  </div>
+
+  <div
+    *ngIf="!isLoading && filteredDevices().length === 0"
+    class="text-center py-20 bg-gray-50 rounded-3xl border-2 border-dashed border-gray-200"
+  >
+    <lucide-icon
+      [img]="Search"
+      class="mx-auto h-12 w-12 text-gray-300"
+    ></lucide-icon>
+    <h3 class="mt-2 text-sm font-medium text-gray-900">No devices found</h3>
+  </div>
+</div>

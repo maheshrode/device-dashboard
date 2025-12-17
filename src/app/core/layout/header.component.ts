@@ -9,12 +9,12 @@ import { ConfigService } from '../config/config.service';
   imports: [CommonModule, LucideAngularModule],
   template: `
     <header
-      class="sticky top-0  w-full bg-white/90 backdrop-blur border-b border-gray-200"
+      class="sticky top-0 z-10 w-full bg-white/90 backdrop-blur border-b border-gray-200"
     >
       <div
         class="max-w-7xl mx-auto flex items-center justify-between px-4 sm:px-6 py-3"
       >
-        <!-- Logo / Title -->
+        <!-- Title -->
         <div class="flex items-center gap-3">
           <div
             class="w-10 h-10 flex items-center justify-center rounded-xl bg-gradient-to-br from-blue-600 to-indigo-600 text-white font-bold shadow"
