@@ -24,7 +24,6 @@ interface StatusSegment {
     <div
       class="w-full h-[200px] bg-white rounded-xl shadow-sm border border-gray-100 p-4"
     >
-      <h3 class="text-sm font-semibold text-gray-500 mb-4">Status Timeline</h3>
       <div class="w-full h-[140px]" #chartContainer></div>
     </div>
   `,
@@ -34,7 +33,7 @@ export class StatusTimelineComponent implements OnChanges {
   @ViewChild('chartContainer', { static: true }) chartContainer!: ElementRef;
 
   private svg: any;
-  private margin = { top: 20, right: 20, bottom: 30, left: 40 };
+  private margin = { top: 20, right: 20, bottom: 30, left: 70 };
 
   ngOnChanges() {
     this.createChart();

@@ -1,116 +1,200 @@
-<div class="max-w-7xl mx-auto p-4 space-y-6">
-  <!-- Header -->
-  <div class="flex items-center justify-between">
+<div class="max-w-7xl mx-auto p-4 sm:p-6 lg:p-8 space-y-8">
+  <!-- Header Section -->
+  <div
+    class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4"
+  >
     <div class="flex items-center gap-4">
       <a
         routerLink="/devices"
-        class="p-2 -ml-2 text-gray-400 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-all duration-200"
+        class="group p-2 -ml-2 text-gray-400 hover:text-gray-900 hover:bg-white rounded-xl transition-all duration-200 border border-transparent hover:border-gray-200 hover:shadow-sm"
         title="Back to Device List"
       >
-        <lucide-icon [img]="ArrowLeft" class="w-6 h-6"></lucide-icon>
+        <lucide-icon
+          [img]="ArrowLeft"
+          class="w-6 h-6 transform group-hover:-translate-x-1 transition-transform"
+        ></lucide-icon>
       </a>
       <div>
-        <h2 class="text-3xl font-bold text-gray-900">Device Monitor</h2>
-        <p class="text-gray-500">Device ID: {{ deviceId }}</p>
+        <h2 class="text-2xl md:text-3xl font-bold text-gray-900 tracking-tight">
+          Device Monitor
+        </h2>
+        <div class="flex items-center gap-2 mt-1">
+          <span
+            class="px-2 py-0.5 rounded text-xs font-medium bg-gray-100 text-gray-600 border border-gray-200"
+          >
+            ID: {{ deviceId }}
+          </span>
+        </div>
       </div>
     </div>
+
+    <!-- Live Status Badge -->
     <div
       *ngIf="latestEvent$ | async as event"
       @fadeAnimation
-      class="flex items-center gap-2 px-4 py-2 rounded-full font-semibold capitalize transition-colors duration-300"
+      class="flex items-center gap-3 px-5 py-2.5 rounded-2xl shadow-sm border transition-all duration-300"
       [class]="getStatusStyle(event.status)"
     >
-      <lucide-icon
-        [img]="getStatusIcon(event.status)"
-        class="w-5 h-5"
-      ></lucide-icon>
-      {{ event.status }}
+      <div class="relative flex h-3 w-3">
+        <span
+          *ngIf="event.status === 'running'"
+          class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"
+        ></span>
+        <span
+          class="relative inline-flex rounded-full h-3 w-3"
+          [class.bg-green-500]="event.status === 'running'"
+          [class.bg-yellow-500]="event.status === 'stopped'"
+          [class.bg-red-500]="event.status === 'maintenance'"
+        ></span>
+      </div>
+      <div class="flex flex-row md:flex-col items-baseline gap-2 md:gap-0">
+        <span class="text-xs font-semibold uppercase tracking-wider opacity-75"
+          >Status</span
+        >
+        <span class="font-bold capitalize leading-none">{{
+          event.status
+        }}</span>
+      </div>
     </div>
   </div>
 
-  <!-- Real-time Dashboard Grid -->
+  <!-- Real-time Metrics Grid -->
   <div
-    class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4"
+    class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
     *ngIf="latestEvent$ | async as event; else loading"
   >
-    <!-- Parts Per Minute -->
-    <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
-      <div class="flex items-center justify-between mb-2">
-        <span class="text-gray-500 font-medium">Performance</span>
+    <!-- Metric 1: Performance (PPM) -->
+    <div
+      class="bg-white relative overflow-hidden rounded-2xl p-6 shadow-sm border border-gray-100 hover:shadow-md transition-shadow duration-300"
+    >
+      <div
+        class="absolute top-0 right-0 w-24 h-24 bg-purple-50 rounded-bl-full -mr-4 -mt-4 opacity-50 group-hover:scale-110 transition-transform duration-500"
+      ></div>
+
+      <div class="flex items-center justify-between mb-4 relative">
+        <div
+          class="p-2 bg-purple-50 text-purple-600 rounded-lg group-hover:bg-purple-600 group-hover:text-white transition-colors"
+        >
+          <lucide-icon [img]="Activity" class="w-6 h-6"></lucide-icon>
+        </div>
         <lucide-icon
-          [img]="Activity"
-          class="w-5 h-5 text-blue-500"
+          [img]="ArrowLeft"
+          class="w-4 h-4 text-purple-300 rotate-180 opacity-0 group-hover:opacity-100 transition-opacity transform translate-x-2 group-hover:translate-x-0"
         ></lucide-icon>
       </div>
-      <div class="text-3xl font-bold text-gray-900">
-        {{ event.partsPerMinute | number : "1.0-2" }}
+      <div class="space-y-1">
+        <span class="text-sm font-medium text-gray-500">Performance</span>
+        <div class="flex items-baseline gap-2">
+          <span class="text-3xl font-extrabold text-gray-900">{{
+            event.partsPerMinute | number : "1.0-0"
+          }}</span>
+          <span class="text-sm text-gray-400">PPM</span>
+        </div>
       </div>
-      <div class="text-xs text-gray-400 mt-1">Parts Per Minute</div>
     </div>
 
-    <!-- Order ID -->
+    <!-- Metric 2: Current Order (Interactive) -->
     <div
-      class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 cursor-pointer hover:shadow-md transition-shadow group relative"
+      class="group bg-white rounded-2xl p-6 shadow-sm border border-gray-100 hover:shadow-lg hover:border-purple-100 hover:-translate-y-1 transition-all duration-300 cursor-pointer relative overflow-hidden"
       (click)="openOrderDetails(event.order)"
     >
       <div
-        class="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity"
-      >
+        class="absolute top-0 right-0 w-24 h-24 bg-purple-50 rounded-bl-full -mr-4 -mt-4 opacity-50 group-hover:scale-110 transition-transform duration-500"
+      ></div>
+
+      <div class="flex items-center justify-between mb-4 relative">
+        <div
+          class="p-2 bg-purple-50 text-purple-600 rounded-lg group-hover:bg-purple-600 group-hover:text-white transition-colors"
+        >
+          <lucide-icon [img]="Server" class="w-6 h-6"></lucide-icon>
+        </div>
         <lucide-icon
-          [img]="Server"
-          class="w-4 h-4 text-purple-300"
+          [img]="ArrowLeft"
+          class="w-4 h-4 text-purple-300 rotate-180 opacity-0 group-hover:opacity-100 transition-opacity transform translate-x-2 group-hover:translate-x-0"
         ></lucide-icon>
       </div>
-      <div class="flex items-center justify-between mb-2">
-        <span class="text-gray-500 font-medium">Current Order</span>
-        <lucide-icon
-          [img]="Server"
-          class="w-5 h-5 text-purple-500"
-        ></lucide-icon>
-      </div>
-      <div
-        class="text-3xl font-bold text-gray-900 group-hover:text-purple-600 transition-colors"
-      >
-        #{{ event.order }}
-      </div>
-      <div class="text-xs text-gray-400 mt-1">
-        Active Job - Click for details
+      <div class="space-y-1 relative">
+        <span class="text-sm font-medium text-gray-500">Current Order</span>
+        <div class="flex items-baseline gap-1">
+          <span
+            class="text-2xl font-extrabold text-gray-900 group-hover:text-purple-600 transition-colors"
+            >#{{ event.order }}</span
+          >
+        </div>
+        <p
+          class="text-xs text-purple-400 transition-opacity absolute -bottom-4"
+        >
+          View Details
+        </p>
       </div>
     </div>
 
-    <!-- Last Update (Timestamp) -->
-    <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
-      <div class="flex items-center justify-between mb-2">
-        <span class="text-gray-500 font-medium">Last Signal</span>
-        <lucide-icon
-          [img]="Clock"
-          class="w-5 h-5 text-orange-500"
-        ></lucide-icon>
+    <!-- Metric 3: Machine Health (Placeholder used as efficient indicator) -->
+    <div
+      class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 hover:shadow-md transition-shadow duration-300"
+    >
+      <div class="flex items-center justify-between mb-4">
+        <div class="p-2 bg-orange-50 text-orange-600 rounded-lg">
+          <lucide-icon [img]="Clock" class="w-6 h-6"></lucide-icon>
+        </div>
+        <span class="text-xs font-medium text-gray-400">Live</span>
       </div>
-      <div class="text-lg font-bold text-gray-900">
-        {{ event.timestamp | date : "mediumTime" }}
-      </div>
-      <div class="text-xs text-gray-400 mt-1">
-        {{ event.timestamp | date : "mediumDate" }}
+      <div class="space-y-1">
+        <span class="text-sm font-medium text-gray-500">Last Signal</span>
+        <div class="flex flex-col">
+          <span class="text-2xl font-extrabold text-gray-900">{{
+            event.timestamp | date : "mediumTime"
+          }}</span>
+          <span class="text-xs text-gray-400">{{
+            event.timestamp | date : "mediumDate"
+          }}</span>
+        </div>
       </div>
     </div>
   </div>
 
-  <!-- Charts Section -->
+  <!-- Analytics Section -->
   <div
-    class="grid grid-cols-1 lg:grid-cols-2 gap-6"
+    class="grid grid-cols-1 lg:grid-cols-2 gap-8"
     *ngIf="latestEvent$ | async"
   >
-    <app-performance-chart [data]="eventHistory"></app-performance-chart>
-    <app-status-timeline [data]="eventHistory"></app-status-timeline>
+    <div class="bg-white rounded-3xl p-6 shadow-sm border border-gray-100">
+      <h3 class="text-lg font-bold text-gray-900 mb-6 flex items-center gap-2">
+        <lucide-icon
+          [img]="Activity"
+          class="w-5 h-5 text-gray-400"
+        ></lucide-icon>
+        Production Performance
+      </h3>
+      <app-performance-chart [data]="eventHistory"></app-performance-chart>
+    </div>
+
+    <div class="bg-white rounded-3xl p-6 shadow-sm border border-gray-100">
+      <h3 class="text-lg font-bold text-gray-900 mb-6 flex items-center gap-2">
+        <lucide-icon [img]="Clock" class="w-5 h-5 text-gray-400"></lucide-icon>
+        Status Timeline
+      </h3>
+      <app-status-timeline [data]="eventHistory"></app-status-timeline>
+    </div>
   </div>
 
+  <!-- Loading State -->
   <ng-template #loading>
-    <div class="p-12 text-center text-gray-500 animate-pulse">
-      Connecting to device stream...
+    <div
+      class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 animate-pulse"
+    >
+      <div
+        *ngFor="let i of [1, 2, 3, 4]"
+        class="bg-gray-200 rounded-2xl h-60 md:h-40"
+      ></div>
+    </div>
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-8 animate-pulse">
+      <div class="bg-gray-200 rounded-3xl h-96"></div>
+      <div class="bg-gray-200 rounded-3xl h-96"></div>
     </div>
   </ng-template>
 
+  <!-- Modals -->
   <app-order-detail
     [isOpen]="isOrderModalOpen"
     [order]="selectedOrder"

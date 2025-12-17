@@ -18,9 +18,6 @@ import { DeviceEvent } from '../devices/device-event.model';
     <div
       class="w-full h-[300px] bg-white rounded-xl shadow-sm border border-gray-100 p-4"
     >
-      <h3 class="text-sm font-semibold text-gray-500 mb-4">
-        Real-time Performance (PPM)
-      </h3>
       <div class="w-full h-[240px]" #chartContainer></div>
     </div>
   `,

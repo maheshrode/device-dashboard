@@ -12,17 +12,16 @@ import {
   Server,
 } from 'lucide-angular';
 import { Observable, of } from 'rxjs';
-import { switchMap, tap } from 'rxjs/operators';
+import { shareReplay, switchMap, tap } from 'rxjs/operators';
 import { EventService } from '../../../core/events/event.service';
 import { DeviceEvent } from '../device-event.model';
-
 import { animate, style, transition, trigger } from '@angular/animations';
 import { ErrorLogService } from '../../../core/error-logs/error-logs.service';
+import { PerformanceChartComponent } from '../../charts/performance-chart.component';
+import { StatusTimelineComponent } from '../../charts/status-timeline.component';
 import { OrderDetailComponent } from '../../orders/order-detail/order-detail.component';
 import { Order } from '../../orders/order.model';
 import { OrderService } from '../../orders/order.service';
-import { PerformanceChartComponent } from '../../charts/performance-chart.component';
-import { StatusTimelineComponent } from '../../charts/status-timeline.component';
 
 @Component({
   selector: 'app-device-detail',
@@ -101,7 +100,8 @@ export class DeviceDetailComponent implements OnInit {
         if (event) {
           this.eventHistory = [...this.eventHistory, event].slice(-50); // Keep last 50 events
         }
-      })
+      }),
+      shareReplay(1)
     );
   }
 
