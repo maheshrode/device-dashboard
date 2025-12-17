@@ -13,7 +13,6 @@ export class ErrorLogService {
     this.errorSubject.next({
       message,
       status,
-      timestamp: new Date(),
     });
   }
 
